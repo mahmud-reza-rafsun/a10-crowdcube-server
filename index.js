@@ -62,7 +62,25 @@ async function run() {
             const result = await campCollections.deleteOne(query);
             res.send(result);
         })
-        app.
+        // specifce user data
+        app.get('/myCampaign/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await campCollections.findOne(query);
+            res.send(result);
+        })
+        // update user data
+        app.put('/addCampaign/:id', async(req, res) => {
+            const id = req.params.id;
+            const userData = req.body;
+            const updatedDoc = {
+                $set: userData,
+            }
+            const filter = {_id: new ObjectId(id)};
+            const option = {upsert: true};
+            const result = await campCollections.updateOne(filter, updatedDoc, option);
+            res.send(result);
+        })
         // donation ammount
         app.post('/donation', async(req, res) => {
             const body = req.body;
