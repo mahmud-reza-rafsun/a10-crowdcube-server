@@ -62,7 +62,7 @@ async function run() {
             const result = await campCollections.deleteOne(query);
             res.send(result);
         })
-        // specifce user data
+        // specifice user data
         app.get('/myCampaign/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id: new ObjectId(id)};
@@ -85,6 +85,13 @@ async function run() {
         app.post('/donation', async(req, res) => {
             const body = req.body;
             const result = await donateCollections.insertOne(body);
+            res.send(result);
+        })
+        // specifice my donation by email
+        app.get('/myDonation/:email', async(req, res) => {
+            const email = req.params.email;
+            const query = {'userData.email': email};
+            const result = await campCollections.find(query).toArray();
             res.send(result);
         })
 
